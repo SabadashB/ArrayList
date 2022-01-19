@@ -307,6 +307,44 @@ namespace ArrayLibraryTest
                 Assert.AreEqual(_arrayList.ToArray(), expectedArray);
             }
 
+            [TestCase(new[] { 4 }, 4, 0, new int[] { })]
+            [TestCase(new int[] { 2, 5, 3 }, 5, 1, new[] { 2, 3 })]
+            [TestCase(new int[] { 2, 3, 3, 4 }, 3, 1, new[] { 2, 3, 4 })]
+            [TestCase(new int[] { 3, 2, 8, 4, 8 }, 8, 2, new[] { 3, 2, 4, 8 })]
+            public void Remove_WhenValidIndex_ShouldRemoveElement(
+                int[] sourceArray,
+                int expectedDeleted,
+                int expectedIndex,
+                int[] expectedArray)
+            {
+                Initialize(sourceArray);
+
+                int actualDeleted =
+                    _arrayList.Remove(expectedDeleted);
+
+                Assert.AreEqual(expectedArray, _arrayList.ToArray());
+                Assert.AreEqual(expectedIndex, actualDeleted);
+            }
+
+            //[TestCase(new[] { 4 }, 4, 1, new int[] { })]
+            //[TestCase(new int[] { 2, 5, 3 }, 5, 1, new[] { 2, 3 })]
+            [TestCase(new int[] { 2, 3, 3, 4 }, 3, 2, new[] { 2, 4 })]
+            [TestCase(new int[] { 3, 2, 8, 4, 8 }, 8, 2, new[] { 3, 2, 4 })]
+            public void RemoveAll_WhenValidIndex_ShouldRemoveAllElement(
+                int[] sourceArray,
+                int expectedDeleted,
+                int expectedCount,
+                int[] expectedArray)
+            {
+                Initialize(sourceArray);
+
+                int actualCount =
+                    _arrayList.Remove(expectedDeleted);
+
+                Assert.AreEqual(expectedArray, _arrayList.ToArray());
+                Assert.AreEqual(expectedCount, actualCount);
+            }
+
             [TestCase(new int[] { }, 0, new int[] { })]
             [TestCase(new int[] { 1 }, 0, new int[] { 1 })]
             [TestCase(new int[] { 5, 2, 3 }, 1, new int[] { 5, 2 })]

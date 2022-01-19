@@ -84,27 +84,6 @@ namespace ArrayLibrary
             _currentCount++;
         }
 
-        public int DeleteByValue(int value)
-        {
-            int index = -1;
-            for (int i = 0; i < _currentCount; i++)
-            {
-                if (_array[i] == value)
-                {
-                    index = i;
-                    break;
-                }
-            }
-
-            --_currentCount;
-            for (int i = index; i < _currentCount; i++)
-            {
-                _array[i] = _array[i + 1];
-            }
-
-            return index;
-        }
-
         public int Max()
         {
             int maxI = MaxI();
@@ -264,13 +243,47 @@ namespace ArrayLibrary
 
         public int Remove(int value)
         {
-            throw new NotImplementedException();
+            int index = -1;
+            for (int i = 0; i < _currentCount; i++)
+            {
+                if (_array[i] == value)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            --_currentCount;
+            for (int i = index; i < _currentCount; i++)
+            {
+                _array[i] = _array[i + 1];
+            }
+
+            return index;
         }
 
         public int RemoveAll(int value)
         {
-            throw new NotImplementedException();
+            int index = -1;
+            int count = 0;
+            for (int i = 0; i < _currentCount; i++)
+            {
+                if (_array[i] == value)
+                {
+                    index = i;
+                    count++;
+                }
+            }
+
+            _currentCount -= count;
+            for (int i = index; i < _currentCount; i++)
+            {
+                _array[i] = _array[i + 1];
+            }
+
+            return count;
         }
+
 
         public void AddBack(IArrayList arrayList)
         {
