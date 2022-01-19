@@ -288,13 +288,6 @@ namespace ArrayLibrary
         {
             var array = arrayList.ToArray();
             UpdateSize(array.Length);
-
-            for (int i = 0, j = array.Length; j < array.Length + _currentCount; i++, j++)
-            {
-                array[j] = _array[i];
-            }
-            _array = array;
-            _currentCount += array.Length;
         }
 
         public void AddByIndex(int index, IArrayList arrayList)
