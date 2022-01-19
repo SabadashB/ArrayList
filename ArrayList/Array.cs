@@ -286,8 +286,6 @@ namespace ArrayLibrary
 
         public void AddFront(IArrayList arrayList)
         {
-            var array = arrayList.ToArray();
-            UpdateSize(array.Length);
         }
 
         public void AddByIndex(int index, IArrayList arrayList)
