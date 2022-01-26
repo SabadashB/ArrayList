@@ -326,11 +326,11 @@ namespace ArrayLibraryTest
                 Assert.AreEqual(expectedIndex, actualDeleted);
             }
 
-            //[TestCase(new[] { 4 }, 4, 1, new int[] { })]
-            //[TestCase(new int[] { 2, 5, 3 }, 5, 1, new[] { 2, 3 })]
+            [TestCase(new[] { 4 }, 4, 1, new int[] { })]
+            [TestCase(new int[] { 2, 5, 3 }, 5, 1, new[] { 2, 3 })]
             [TestCase(new int[] { 2, 3, 3, 4 }, 3, 2, new[] { 2, 4 })]
             [TestCase(new int[] { 3, 2, 8, 4, 8 }, 8, 2, new[] { 3, 2, 4 })]
-            public void RemoveAll_WhenValidIndex_ShouldRemoveAllElement(
+            public void RemoveAll_WhenValidIndex_ShouldRemoveAllElements(
                 int[] sourceArray,
                 int expectedDeleted,
                 int expectedCount,
@@ -338,29 +338,10 @@ namespace ArrayLibraryTest
             {
                 Initialize(sourceArray);
 
-                int actualCount =
-                    _arrayList.Remove(expectedDeleted);
+                _arrayList.RemoveAll(expectedDeleted);
 
                 Assert.AreEqual(expectedArray, _arrayList.ToArray());
-                Assert.AreEqual(expectedCount, actualCount);
-            }
-
-            [TestCase(new int[] { }, 0, new int[] { })]
-            [TestCase(new int[] { 1 }, 0, new int[] { 1 })]
-            [TestCase(new int[] { 5, 2, 3 }, 1, new int[] { 5, 2 })]
-            [TestCase(new int[] { 2, 3, 1, 4 }, 2, new int[] { 2, 3 })]
-            [TestCase(new int[] { 5, 3, 2, 1, 4 }, 3, new int[] { 5, 3, 2 })]
-            public void RemoveCount_WhenValidIndex_ShouldReturnNewArray(
-                int[] sourceArray,
-                int count,
-                int[] expectedArray)
-            {
-                Initialize(sourceArray);
-                _arrayList.Remove(count);
-                //int index = _arrayList.Remove(count);
-
-                Assert.AreEqual(_arrayList.ToArray(), expectedArray);
-                //Assert.AreEqual(index, count);
+                //Assert.AreEqual(expectedCount, actualCount);
             }
 
             [TestCase(
@@ -368,6 +349,11 @@ namespace ArrayLibraryTest
                 2,
                 new[] { 6, 7, 8 },
                 new[] { 1, 2, 6, 7, 8, 3, 4, 5 })]
+            [TestCase(
+                new[] { 1, 2, 3, 4, 5 },
+                1,
+                new[] { 6, 7, 8 },
+                new[] { 1, 6, 7, 8, 2, 3, 4, 5 })]
             public void AddByIndex_WhenArrayAdded_ShouldAddArrayElementsToIndex(
                 int[] sourceArray,
                 int index,
@@ -385,6 +371,10 @@ namespace ArrayLibraryTest
                 new[] { 1, 2, 3, 4, 5 },
                 new[] { 6, 7, 8 },
                 new[] { 6, 7, 8, 1, 2, 3, 4, 5 })]
+            [TestCase(
+                new int[] { },
+                new[] { 6, 7, 8 },
+                new[] { 6, 7, 8 })]
             public void AddInFront_WhenArrayAdded_ShouldAddArrayElementsToFront(
                 int[] sourceArray,
                 int[] arrayToAdd,

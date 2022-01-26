@@ -264,25 +264,30 @@ namespace ArrayLibrary
 
         public int RemoveAll(int value)
         {
-            int index = -1;
             int count = 0;
             for (int i = 0; i < _currentCount; i++)
             {
                 if (_array[i] == value)
                 {
-                    index = i;
                     count++;
                 }
             }
-
-            _currentCount -= count;
-            for (int i = index; i < _currentCount; i++)
+            int[] result = new int[count];
+            for (int i = 0, j = 0; j < count; i++, j++)
             {
-                _array[i] = _array[i + 1];
+                if (_array[i] != value)
+                {
+                    result[j] = _array[i];
+                }
             }
-
+            _currentCount -= count;
+            for (int i = 0; i < _currentCount - count; i++)
+            {
+                _array = result;
+            }
             return count;
         }
+
 
 
         public void AddBack(IArrayList arrayList)
@@ -299,35 +304,31 @@ namespace ArrayLibrary
 
         public void AddFront(IArrayList arrayList)
         {
-            var array = arrayList.ToArray();
-            UpdateSize(array.Length);
+            AddByIndex(0, arrayList);
         }
 
         public void AddByIndex(int index, IArrayList arrayList)
         {
             var array = arrayList.ToArray();
             UpdateSize(array.Length);
-            for (int i = 0; i < _currentCount + array.Length; i++)
+            int newLenght = _currentCount + array.Length;
+            int counter = array.Length;
+            for (int i = 0; i < newLenght; i++)
             {
-                if (i < index)
+                if (i < index || i == index)
                 {
                     continue;
                 }
-                if(i > index)
+                else if (i > index && i <= _currentCount)
                 {
-
+                     _array[newLenght - counter] = _array[_currentCount - i];
+                    counter--;
                 }
-            }
-            var transpoeter = index + array.Length;
-            for (int i = transpoeter, n = transpoeter; n < _currentCount + array.Length; n++, i++)
-            {
-                _array[i] = _array[n];
             }
             for (int i = index, j = 0; j < array.Length; i++, j++)
             {
                 _array[i] = array[j];
             }
-
 
             _currentCount += array.Length;
         }
