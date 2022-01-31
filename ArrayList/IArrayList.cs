@@ -27,7 +27,7 @@ namespace ArrayLibrary
         int Remove(int value);
         int RemoveAll(int value);
         void AddFront(IArrayList arrayList);
-        void AddBack(IArrayList arrayList);
+        void AddBack(IEnumerable<int> arrayList);
         void AddByIndex(int index, IArrayList arrayList);
         int[] ToArray();
     }

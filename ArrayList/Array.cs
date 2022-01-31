@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ArrayLibrary
 {
     public class ArrayList : IArrayList
     {
-        private int[] _array;
+        private const double IncreaseCoef = 1.33;
+        private const int DefaultSize = 5;
 
+        private int[] _array;
         private int _currentCount;
 
-        private double _increaseCoef = 1.33;
+        public int Capacity => _array.Length;
         public int Length => _currentCount;
 
         public int this[int index]
@@ -37,7 +40,7 @@ namespace ArrayLibrary
 
         public ArrayList()
         {
-            _array = new int[5];
+            _array = new int[DefaultSize];
             _currentCount = 0;
         }
 
@@ -46,9 +49,11 @@ namespace ArrayLibrary
             _array = new int[capacity];
             _currentCount = 0;
         }
+
         public ArrayList(int[] array)
         {
-            int size = (int)(array.Length * _increaseCoef);
+            int size = (int)(array.Length * IncreaseCoef);
+            size = size >= DefaultSize ? size : DefaultSize;
             _array = new int[size];
             _currentCount = array.Length;
 
@@ -97,6 +102,7 @@ namespace ArrayLibrary
 
         public int MaxI()
         {
+            EmptyArray();
             if (_currentCount == 0)
             {
                 return -1;
@@ -122,6 +128,7 @@ namespace ArrayLibrary
 
         public int MinI()
         {
+            EmptyArray();
             if (_currentCount == 0)
             {
                 throw new ArgumentException("Array is empty!");
@@ -169,22 +176,30 @@ namespace ArrayLibrary
 
         public int[] RemoveFront(int count)
         {
-            int[] result = new int[count];
-            RemoveByIndex(0, count);
+            int[] result = RemoveByIndex(0, count);
             return result;
         }
 
         public int[] RemoveBack(int count)
         {
             int[] result = new int[count];
-            RemoveByIndex(_currentCount - 1, count);
+
+            int j = 0;
+            for (int i = _currentCount - count; i <= _currentCount - 1; i++)
+            {
+                result[j++] = _array[i];
+            }
+
+            _currentCount -= count;
+
             return result;
         }
 
         public int[] RemoveByIndex(int index, int count)
         {
+            EmptyArray();
             int[] result = new int[count];
-            if ((index + count) > _currentCount)
+            if (index > _currentCount || count > _currentCount)
             {
                 throw new ArgumentException("Invalid index or count!");
             }
@@ -220,6 +235,7 @@ namespace ArrayLibrary
 
         public void Reverse()
         {
+            EmptyArray();
             for (int i = 0; i < _currentCount / 2; i++)
             {
                 Swap(ref _array[i], ref _array[_currentCount - 1 - i]);
@@ -228,6 +244,7 @@ namespace ArrayLibrary
 
         public void Sort(bool ascending = true)
         {
+            EmptyArray();
             int modifier = ascending ? 1 : -1;
             for (int i = 0; i < _currentCount -1; i++)
             {
@@ -243,6 +260,7 @@ namespace ArrayLibrary
 
         public int Remove(int value)
         {
+            EmptyArray();
             int index = -1;
             for (int i = 0; i < _currentCount; i++)
             {
@@ -264,6 +282,25 @@ namespace ArrayLibrary
 
         public int RemoveAll(int value)
         {
+            EmptyArray();
+            int count = CountOf(value);
+
+            int j = 0;
+            for (int i = 0; i < Length; i++)
+            {
+                if (_array[i] != value)
+                {
+                    _array[j++] = _array[i];
+                }
+            }
+
+            _currentCount -= count;
+
+            return count;
+        }
+
+        private int CountOf(int value)
+        {
             int count = 0;
             for (int i = 0; i < _currentCount; i++)
             {
@@ -272,34 +309,21 @@ namespace ArrayLibrary
                     count++;
                 }
             }
-            int[] result = new int[count];
-            for (int i = 0, j = 0; j < count; i++, j++)
-            {
-                if (_array[i] != value)
-                {
-                    result[j] = _array[i];
-                }
-            }
-            _currentCount -= count;
-            for (int i = 0; i < _currentCount - count; i++)
-            {
-                _array = result;
-            }
+
             return count;
         }
 
-
-
-        public void AddBack(IArrayList arrayList)
+        public void AddBack(IEnumerable<int> arrayList)
         {
-           var array = arrayList.ToArray();
-            UpdateSize(array.Length);
-            for (int i = _currentCount, j = 0; j < array.Length; i++, j++)
+            int size = arrayList.Count();
+            UpdateSize(size);
+            int i = _currentCount;
+            foreach (var item in arrayList)
             {
-                _array[i] = array[j];
+                _array[i++] = item;
             }
 
-            _currentCount += array.Length;
+            _currentCount += size;
         }
 
         public void AddFront(IArrayList arrayList)
@@ -312,19 +336,11 @@ namespace ArrayLibrary
             var array = arrayList.ToArray();
             UpdateSize(array.Length);
             int newLenght = _currentCount + array.Length;
-            int counter = array.Length;
-            for (int i = 0; i < newLenght; i++)
+            for (int i = 0; i < _currentCount - index; i++)
             {
-                if (i < index || i == index)
-                {
-                    continue;
-                }
-                else if (i > index && i <= _currentCount)
-                {
-                     _array[newLenght - counter] = _array[_currentCount - i];
-                    counter--;
-                }
+                _array[newLenght - i - 1] = _array[_currentCount - i - 1];
             }
+
             for (int i = index, j = 0; j < array.Length; i++, j++)
             {
                 _array[i] = array[j];
@@ -367,7 +383,7 @@ namespace ArrayLibrary
 
         private void EmptyArray()
         {
-            if (_array == null || _array.Length == 0)
+            if (_array == null || _currentCount == 0)
             {
                 throw new ArgumentException("Array is empty");
             }
@@ -377,7 +393,7 @@ namespace ArrayLibrary
         {
             if ((_currentCount + countToAdd) >= _array.Length)
             {
-                int newSize = (int)((_array.Length + countToAdd) * _increaseCoef);
+                int newSize = (int)((_array.Length + countToAdd) * IncreaseCoef);
                 int[] newArray = new int[newSize];
                 for (int i = 0; i < _currentCount; i++)
                 {
