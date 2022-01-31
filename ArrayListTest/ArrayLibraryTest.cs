@@ -313,7 +313,6 @@ namespace ArrayLibraryTest
             Assert.Fail();
         }
 
-        [TestCase(new int[] { }, new int[] { })]
         [TestCase(new int[] { 1 }, new int[] { 1 })]
         [TestCase(new int[] { 5, 2, 3 }, new int[] { 3, 2, 5 })]
         [TestCase(new int[] { 1, 2, 3, 4 }, new int[] { 4, 3, 2, 1 })]
@@ -329,7 +328,6 @@ namespace ArrayLibraryTest
             Assert.AreEqual(_arrayList, expectedArray);
         }
 
-        [TestCase(new int[] { }, true, new int[] { })]
         [TestCase(new int[] { 1 }, true, new int[] { 1 })]
         [TestCase(new int[] { 5, 2, 3 }, true, new int[] { 2, 3, 5 })]
         [TestCase(new int[] { 2, 3, 1, 4 }, true, new int[] { 1, 2, 3, 4 })]
@@ -346,7 +344,6 @@ namespace ArrayLibraryTest
             Assert.AreEqual(_arrayList, expectedArray);
         }
 
-        [TestCase(new int[] { }, false, new int[] { })]
         [TestCase(new int[] { 1 }, false, new int[] { 1 })]
         [TestCase(new int[] { 5, 2, 3 }, false, new int[] { 5, 3, 2 })]
         [TestCase(new int[] { 2, 3, 1, 4 }, false, new int[] { 4, 3, 2, 1 })]
