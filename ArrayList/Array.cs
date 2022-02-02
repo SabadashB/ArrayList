@@ -199,7 +199,7 @@ namespace ArrayLibrary
         {
             EmptyArray();
             int[] result = new int[count];
-            if (index > _currentCount || count > _currentCount)
+            if (index > _currentCount || count > _currentCount || index > count)
             {
                 throw new ArgumentException("Invalid index or count!");
             }

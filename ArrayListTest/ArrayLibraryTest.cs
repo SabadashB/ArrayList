@@ -36,17 +36,6 @@ namespace ArrayLibraryTest
             CollectionAssert.AreEqual(sourceArray, _arrayList);
         }
 
-        [Test]
-        public void Complex1_ArrayInit_AddBack()
-        {
-            _arrayList = new ArrayList(new int[] { });
-
-            _arrayList.AddBack(10);
-            _arrayList.AddFront(5);
-
-            CollectionAssert.AreEqual(new[] { 5, 10 }, _arrayList);
-        }
-
         [TestCase(new[] { 5, 3, 1, 2, 7 }, 7)]
         [TestCase(new[] { 5}, 5)]
         [TestCase(new[] { 2, 8 }, 8)]
@@ -325,7 +314,7 @@ namespace ArrayLibraryTest
 
             _arrayList.Reverse();
 
-            Assert.AreEqual(_arrayList, expectedArray);
+            Assert.AreEqual(expectedArray, _arrayList);
         }
 
         [TestCase(new int[] { 1 }, true, new int[] { 1 })]
@@ -341,7 +330,7 @@ namespace ArrayLibraryTest
 
             _arrayList.Sort(ascending);
 
-            Assert.AreEqual(_arrayList, expectedArray);
+            Assert.AreEqual(expectedArray, _arrayList);
         }
 
         [TestCase(new int[] { 1 }, false, new int[] { 1 })]
@@ -357,7 +346,7 @@ namespace ArrayLibraryTest
 
             _arrayList.Sort(ascending);
 
-            Assert.AreEqual(_arrayList, expectedArray);
+            Assert.AreEqual(expectedArray, _arrayList);
         }
 
         [TestCase(new[] { 4 }, 4, 0, new int[] { })]
