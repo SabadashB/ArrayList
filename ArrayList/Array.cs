@@ -299,20 +299,6 @@ namespace ArrayLibrary
             return count;
         }
 
-        private int CountOf(int value)
-        {
-            int count = 0;
-            for (int i = 0; i < _currentCount; i++)
-            {
-                if (_array[i] == value)
-                {
-                    count++;
-                }
-            }
-
-            return count;
-        }
-
         public void AddBack(IEnumerable<int> arrayList)
         {
             int size = arrayList.Count();
@@ -387,6 +373,19 @@ namespace ArrayLibrary
             {
                 throw new ArgumentException("Array is empty");
             }
+        }
+        private int CountOf(int value)
+        {
+            int count = 0;
+            for (int i = 0; i < _currentCount; i++)
+            {
+                if (_array[i] == value)
+                {
+                    count++;
+                }
+            }
+
+            return count;
         }
 
         private void UpdateSize(int countToAdd = 1)
